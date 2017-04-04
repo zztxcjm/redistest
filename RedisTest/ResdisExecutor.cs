@@ -15,6 +15,26 @@ namespace RedisTest
     public class ResdisExecutor
     {
 
+        private string _config;
+
+        public ResdisExecutor(string config)
+        {
+            _config = config;
+        }
+        public ResdisExecutor()
+        {
+            _config = "127.0.0.1";
+        }
+
+        public void Exec(RedisAction act)
+        {
+            ResdisExecutor.ExecCommand(act, _config);
+        }
+        public T Exec<T>(RedisAction<T> act)
+        {
+            return ResdisExecutor.ExecCommand<T>(act, _config);
+        }
+
         private static string GetConfig(string config)
         {
             if (!String.IsNullOrEmpty(config))
@@ -29,7 +49,7 @@ namespace RedisTest
 
         }
 
-        public static void Exec(RedisAction act, string config = null)
+        public static void ExecCommand(RedisAction act, string config = null)
         {
             if (act != null)
             {
@@ -44,7 +64,7 @@ namespace RedisTest
             }
         }
 
-        public static T Exec<T>(RedisAction<T> act, string config = null)
+        public static T ExecCommand<T>(RedisAction<T> act, string config = null)
         {
             if (act != null)
             {
